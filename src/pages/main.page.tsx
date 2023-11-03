@@ -6,9 +6,5 @@ type IMainPageProps = {};
 export const MainPage: FC<IMainPageProps> = ({}) => {
   const onSceneReady = (scene: Scene) => {};
 
-  return (
-    <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
-      <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />
-    </div>
-  );
+  return <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />;
 };

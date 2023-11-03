@@ -1,6 +1,7 @@
 import { useEffect, useRef, FC } from 'react';
 import {
   ArcRotateCamera,
+  Color4,
   Engine,
   HemisphericLight,
   Scene,
@@ -33,10 +34,16 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
     const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
     const scene = new Scene(engine, sceneOptions);
 
-    SceneLoader.ImportMeshAsync('', '/', 'sample.glb', scene);
+    scene.clearColor = new Color4(0, 0, 0, 0);
+
+    const model = SceneLoader.ImportMeshAsync('', '/', 'sample.glb', scene);
+
+    model.then((res) => {
+      res.meshes.map((mesh) => (mesh.position.y = -1));
+    });
 
     // This creates and positions a free camera (non-mesh)
-    const camera = new ArcRotateCamera('Camera', 2, 1, 20, Vector3.Zero(), scene);
+    const camera = new ArcRotateCamera('Camera', 2, 1.1, 4.5, Vector3.Zero(), scene);
 
     // This targets the camera to scene origin
     // camera.setTarget(Vector3.Random());
@@ -54,9 +61,6 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
 
     // Our built-in 'ground' shape.
     // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
-
-    // const helper = scene.createDefaultEnvironment();
-    // helper.setMainColor(Color3.Green());
 
     if (scene.isReady()) {
       onSceneReady(scene);
@@ -86,5 +90,15 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
     };
   }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
 
-  return <canvas ref={reactCanvas} {...rest} style={{ flex: 1 }} />;
+  return (
+    <canvas
+      ref={reactCanvas}
+      {...rest}
+      style={{
+        width: '100%',
+        height: '100vh',
+        background: 'linear-gradient(30deg, rgba(178,153,141,1) 35%, rgba(134,125,132,1) 79%)',
+      }}
+    />
+  );
 };
