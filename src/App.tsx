@@ -1,5 +1,6 @@
 import './App.css';
+import { MainPage } from './pages';
 
 export const App = () => {
-  return <div />;
+  return <MainPage />;
 };
