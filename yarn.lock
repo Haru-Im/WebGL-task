@@ -1152,6 +1152,11 @@
   resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-6.28.0.tgz#1e2d6aef07d5b2924d2345930ba867c14cfa7120"
   integrity sha512-43iBqAozZ56scPXrwkSOjZNOBqKw2ZE1kC9bYKG3vtuRM0H6uIruD1ew1xYM3rHO6nbvZJz428Tk3ZgYe9ULLA==
 
+"@babylonjs/loaders@6.28.0":
+  version "6.28.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/loaders/-/loaders-6.28.0.tgz#084dd30c3d367d181dd305edf38b65cd47691188"
+  integrity sha512-XR9NPNb72w+0pQq7l1BjuGwvnZz21ODvr+Y89N9ivwfpyw9t9xBrUYuynMIsSUytR75Fz/0KEnjUMbDiGA0KHQ==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
