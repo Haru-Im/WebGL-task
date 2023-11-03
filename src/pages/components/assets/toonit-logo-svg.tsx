@@ -9,7 +9,7 @@ export const ToonitLogoSvg: FC = ({}) => {
       viewBox="0 0 100 21"
       fill="none"
     >
-      <g clip-path="url(#clip0_4_6)">
+      <g clipPath="url(#clip0_4_6)">
         <path
           d="M5.77079 4.30692H0V0.334625H15.8573V3.3227C15.8573 3.58373 15.7535 3.83407 15.5686 4.01864C15.3837 4.20322 15.133 4.30692 14.8716 4.30692H10.0866V19.9185H5.77079V4.30692Z"
           fill="#6A00EB"

@@ -32,8 +32,8 @@ export const ButtonSvg = ({ title }) => {
           y2="2.33391e-06"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FF7C4D" />
-          <stop offset="1" stop-color="#FFA466" />
+          <stop stopColor="#FF7C4D" />
+          <stop offset="1" stopColor="#FFA466" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_4_110"
@@ -43,8 +43,8 @@ export const ButtonSvg = ({ title }) => {
           y2="2.33391e-06"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FF7C4D" />
-          <stop offset="1" stop-color="#FFA466" />
+          <stop stopColor="#FF7C4D" />
+          <stop offset="1" stopColor="#FFA466" />
         </linearGradient>
       </defs>
     </svg>

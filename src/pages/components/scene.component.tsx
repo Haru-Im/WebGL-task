@@ -96,7 +96,7 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
       {...rest}
       style={{
         width: '100%',
-        height: '100vh',
+        height: '100%',
         background: 'linear-gradient(30deg, rgba(178,153,141,1) 35%, rgba(134,125,132,1) 79%)',
       }}
     />
