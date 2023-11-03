@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ButtonBoxComponent, SceneComponent } from './components';
+import { ButtonBoxComponent, HeaderComponent, SceneComponent } from './components';
 import { Scene } from '@babylonjs/core';
 type IMainPageProps = {};
 
@@ -8,8 +8,9 @@ export const MainPage: FC<IMainPageProps> = ({}) => {
 
   return (
     <>
+      <HeaderComponent />
       <ButtonBoxComponent />
-      <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />;
+      <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />
     </>
   );
 };
