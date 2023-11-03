@@ -2,14 +2,17 @@ import { useEffect, useRef, FC } from 'react';
 import {
   ArcRotateCamera,
   Color4,
+  DirectionalLight,
   Engine,
-  HemisphericLight,
+  MeshBuilder,
   Scene,
   SceneLoader,
+  ShadowGenerator,
   Vector3,
 } from '@babylonjs/core';
 import { BabylonjsProps } from '../type';
 import '@babylonjs/loaders/glTF';
+import { Inspector } from '@babylonjs/inspector';
 
 type ISceneComponentProps = BabylonjsProps;
 
@@ -25,7 +28,6 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
 }) => {
   const reactCanvas = useRef(null);
 
-  // set up basic engine and scene
   useEffect(() => {
     const { current: canvas } = reactCanvas;
 
@@ -34,33 +36,43 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
     const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
     const scene = new Scene(engine, sceneOptions);
 
+    Inspector.Show(scene, {});
+
     scene.clearColor = new Color4(0, 0, 0, 0);
+
+    const camera = new ArcRotateCamera('Camera', 2, 1.1, 4.5, Vector3.Zero(), scene);
+    camera.attachControl(canvas, true);
+    camera.setTarget(Vector3.Zero());
+
+    const light = new DirectionalLight('light', new Vector3(0, -1, -2), scene);
+    light.intensity = 2;
+    light.position = new Vector3(0, 10, 0);
+
+    const shadowGenerator = new ShadowGenerator(1024, light);
+    shadowGenerator.useExponentialShadowMap = true;
 
     const model = SceneLoader.ImportMeshAsync('', '/', 'sample.glb', scene);
 
     model.then((res) => {
-      res.meshes.map((mesh) => (mesh.position.y = -1));
+      res.meshes.forEach((mesh) => {
+        mesh.position.y = -1;
+        shadowGenerator.addShadowCaster(mesh);
+        console.log(123, mesh.material);
+      });
     });
 
-    // This creates and positions a free camera (non-mesh)
-    const camera = new ArcRotateCamera('Camera', 2, 1.1, 4.5, Vector3.Zero(), scene);
+    const ground = MeshBuilder.CreateGround(
+      'ground',
+      { width: 10, height: 10, subdivisions: 30 },
+      scene,
+    );
 
-    // This targets the camera to scene origin
-    // camera.setTarget(Vector3.Random());
+    ground.position.y = -1;
+    ground.receiveShadows = true;
 
-    // const canvas = scene.getEngine().getRenderingCanvas();
+    // const newMaterial = new StandardMaterial("newMaterial", scene);
 
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
-
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7;
-
-    // Our built-in 'ground' shape.
-    // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene);
+    // ground.material.getActiveTextures('china');
 
     if (scene.isReady()) {
       onSceneReady(scene);
@@ -98,6 +110,7 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
         width: '100%',
         height: '100%',
         background: 'linear-gradient(30deg, rgba(178,153,141,1) 35%, rgba(134,125,132,1) 79%)',
+        touchAction: 'none',
       }}
     />
   );
