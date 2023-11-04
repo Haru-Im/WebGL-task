@@ -1,2 +1,2 @@
-export * from './main.page';
-export * from './type';
+export * from './main';
+export * from './main/components/scene/scene.type';

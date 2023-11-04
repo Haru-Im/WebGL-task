@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { ButtonSvg, ToggleButtonSvg } from './assets';
+import { OptionButtonSvg, ToggleButtonSvg } from '../svgs';
 type IButtonBoxComponentProps = {};
 
 const BUTTON_TYPES = ['Light', 'Shadow', 'Arm', 'Toon Shader'];
@@ -14,9 +14,6 @@ export const ButtonBoxComponent: FC<IButtonBoxComponentProps> = ({}) => {
   return (
     <div
       style={{
-        position: 'fixed',
-        top: 87,
-        left: 7,
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
@@ -45,7 +42,7 @@ export const ButtonBoxComponent: FC<IButtonBoxComponentProps> = ({}) => {
           {BUTTON_TYPES.map((e, i) => {
             return (
               <button key={i} style={{}}>
-                <ButtonSvg title={e} />
+                <OptionButtonSvg title={e} />
               </button>
             );
           })}

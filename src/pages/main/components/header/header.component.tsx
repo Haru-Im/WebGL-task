@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { ToonitLogoSvg } from './assets';
+import { ToonitLogoSvg } from '../svgs';
+
 type IHeaderComponentProps = {};
 
 export const HeaderComponent: FC<IHeaderComponentProps> = ({}) => {
