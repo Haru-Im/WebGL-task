@@ -17,7 +17,7 @@ export const ToggleButtonSvg: FC<IToggleButtonSvgProps> = ({ title }) => {
         textAnchor="middle"
         dy=".3em"
         fill="white"
-        fontSize="30px"
+        fontSize="24px"
         fontWeight={500}
       >
         {title}

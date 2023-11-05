@@ -1,28 +1,18 @@
 import { Scene } from '@babylonjs/core';
 import { Inspector } from '@babylonjs/inspector';
-import { useEffect, useState } from 'react';
+import { MutableRefObject } from 'react';
 
-export const useInspector = (scene: Scene) => {
-  const [isInspectorOpened, setIsInspectorOpened] = useState<boolean>(true);
-
+export const useInspector = (sceneRef: MutableRefObject<Scene>) => {
   const toggleInspector = () => {
-    setIsInspectorOpened((prev) => !prev);
+    if (Inspector.IsVisible) {
+      Inspector.Hide();
+    } else {
+      Inspector.Show(sceneRef.current, {
+        overlay: true,
+        embedMode: true,
+      });
+    }
   };
-
-  const openInspector = () => {
-    Inspector.Show(scene, {
-      overlay: true,
-    });
-  };
-
-  const closeInspector = () => {
-    Inspector.Hide();
-  };
-
-  useEffect(() => {
-    if (!scene) return;
-    isInspectorOpened ? closeInspector() : openInspector();
-  }, [isInspectorOpened]);
 
   return { toggleInspector };
 };

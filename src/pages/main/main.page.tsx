@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { HeaderComponent, SceneComponent } from './components';
+
 import { MainLayout } from 'src/layouts';
+import { HeaderComponent, SceneComponent } from './components';
 
 type IMainPageProps = {};
 

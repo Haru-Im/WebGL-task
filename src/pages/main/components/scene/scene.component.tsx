@@ -6,6 +6,7 @@ import {
   useCamera,
   useEngine,
   useGround,
+  useInspector,
   useLight,
   useModel,
   useScene,
@@ -19,6 +20,7 @@ type ISceneComponentProps = {};
 
 export const SceneComponent: FC<ISceneComponentProps> = ({}) => {
   const reactCanvas = useRef<HTMLCanvasElement>(null);
+
   const { initEngine, engineRef, renderScene } = useEngine();
   const { initScene, sceneRef } = useScene();
   const { initCamera } = useCamera();
@@ -27,6 +29,7 @@ export const SceneComponent: FC<ISceneComponentProps> = ({}) => {
   const { initModel } = useModel();
   const { initGround } = useGround();
   const { rightHandUpAnimation } = useAnimation(sceneRef);
+  const { toggleInspector } = useInspector(sceneRef);
 
   useEffect(() => {
     const { current: canvas } = reactCanvas;
@@ -52,7 +55,7 @@ export const SceneComponent: FC<ISceneComponentProps> = ({}) => {
           hideShadow={hideShadow}
           rightHandUpAnimation={rightHandUpAnimation}
         />
-        <ToggleInspectorButtonComponent scene={sceneRef.current} />
+        <ToggleInspectorButtonComponent toggleInspector={toggleInspector} />
       </div>
       <canvas ref={reactCanvas} className={styles.canvas} />
     </Fragment>
