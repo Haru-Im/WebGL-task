@@ -1,16 +1,24 @@
-import { Engine } from '@babylonjs/core';
+import { Engine, Scene } from '@babylonjs/core';
 import { BabylonjsProps } from 'babylonjs-hook';
+import { useRef } from 'react';
 
 type IEngineProps = {
   canvas: HTMLCanvasElement;
 } & Pick<BabylonjsProps, 'antialias' | 'engineOptions' | 'adaptToDeviceRatio'>;
 
 export const useEngine = () => {
-  const initEngine = ({ canvas, antialias, engineOptions, adaptToDeviceRatio }: IEngineProps) => {
-    const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
-
+  const engineRef = useRef<Engine>(null);
+  const initEngine = ({ canvas }: IEngineProps) => {
+    const engine = new Engine(canvas, true);
+    engineRef.current = engine;
     return engine;
   };
 
-  return { initEngine };
+  const renderScene = (sceneRef: React.MutableRefObject<Scene>) => {
+    engineRef.current.runRenderLoop(() => {
+      sceneRef.current.render();
+    });
+  };
+
+  return { initEngine, engineRef, renderScene };
 };

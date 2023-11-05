@@ -6,3 +6,4 @@ export * from './engine';
 export * from './model';
 export * from './ground';
 export * from './inspector';
+export * from './animation';

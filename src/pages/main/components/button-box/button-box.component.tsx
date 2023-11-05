@@ -2,12 +2,25 @@ import { FC, useState } from 'react';
 import { OptionButtonSvg, ToggleButtonSvg } from '../svgs';
 import styles from './button-box.component.module.css';
 
-type IButtonBoxComponentProps = {};
+type IButtonBoxComponentProps = {
+  toggleLight: () => void;
+  hideShadow: () => void;
+  rightHandUpAnimation: () => void;
+};
 
-const BUTTON_TYPES = ['Light', 'Shadow', 'Arm', 'Toon Shader'];
-
-export const ButtonBoxComponent: FC<IButtonBoxComponentProps> = ({}) => {
+export const ButtonBoxComponent: FC<IButtonBoxComponentProps> = ({
+  toggleLight,
+  hideShadow,
+  rightHandUpAnimation,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  const BUTTON_TYPES = [
+    { title: 'Light', onPress: toggleLight },
+    { title: 'Shadow', onPress: hideShadow },
+    { title: 'Arm', onPress: rightHandUpAnimation },
+    { title: 'Toon Shader', onPress: toggleLight },
+  ];
 
   const handlePressToggleButton = () => {
     setIsOpen((prev) => !prev);
@@ -23,8 +36,8 @@ export const ButtonBoxComponent: FC<IButtonBoxComponentProps> = ({}) => {
         <div className={styles.button_box}>
           {BUTTON_TYPES.map((e, i) => {
             return (
-              <button key={i}>
-                <OptionButtonSvg title={e} />
+              <button key={i} onClick={e.onPress}>
+                <OptionButtonSvg title={e.title} />
               </button>
             );
           })}

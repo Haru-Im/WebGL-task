@@ -1,7 +1,8 @@
-import { useEffect, useRef, FC, useState } from 'react';
-import { BabylonjsProps } from './scene.type';
+import { useRef, FC, useEffect, Fragment } from 'react';
+
 import '@babylonjs/loaders/glTF';
 import {
+  useAnimation,
   useCamera,
   useEngine,
   useGround,
@@ -12,81 +13,48 @@ import {
 } from '../../hooks';
 import { ButtonBoxComponent } from '../button-box';
 import { ToggleInspectorButtonComponent } from '../toggle-inspector-button';
-import { Scene } from '@babylonjs/core';
 import styles from './scene.component.module.css';
 
-type ISceneComponentProps = BabylonjsProps;
+type ISceneComponentProps = {};
 
-export const SceneComponent: FC<ISceneComponentProps> = ({
-  antialias,
-  engineOptions,
-  adaptToDeviceRatio,
-  sceneOptions,
-  onRender,
-  onSceneReady,
-  id,
-  ...rest
-}) => {
+export const SceneComponent: FC<ISceneComponentProps> = ({}) => {
   const reactCanvas = useRef<HTMLCanvasElement>(null);
-  const [myScene, setMyScene] = useState<Scene>(null);
-
-  const { initEngine } = useEngine();
-  const { initScene } = useScene();
+  const { initEngine, engineRef, renderScene } = useEngine();
+  const { initScene, sceneRef } = useScene();
   const { initCamera } = useCamera();
-  const { initLight } = useLight();
-  const { initShadow } = useShadow();
+  const { initLight, toggleLight, lightRef } = useLight();
+  const { initShadow, shadowRef, hideShadow } = useShadow(sceneRef);
   const { initModel } = useModel();
   const { initGround } = useGround();
+  const { rightHandUpAnimation } = useAnimation(sceneRef);
 
   useEffect(() => {
     const { current: canvas } = reactCanvas;
+
     if (!canvas) return;
 
-    const engine = initEngine({ canvas, antialias, engineOptions, adaptToDeviceRatio });
-    const scene = initScene(engine, sceneOptions);
-    setMyScene(scene);
+    initEngine({ canvas });
+    initScene(engineRef.current);
+    initCamera(sceneRef.current, canvas);
+    initLight(sceneRef.current);
+    initShadow(lightRef.current);
+    initModel(sceneRef.current, shadowRef.current);
+    initGround(sceneRef.current);
 
-    initCamera(scene, canvas);
-    const light = initLight(scene);
-    const shadowGenerator = initShadow(light);
-    initModel(scene, shadowGenerator);
-    initGround(scene);
-
-    if (scene.isReady()) {
-      onSceneReady(scene);
-    } else {
-      scene.onReadyObservable.addOnce((scene) => onSceneReady(scene));
-    }
-
-    engine.runRenderLoop(() => {
-      if (typeof onRender === 'function') onRender(scene);
-      scene.render();
-    });
-
-    const resize = () => {
-      scene.getEngine().resize();
-    };
-
-    if (window) {
-      window.addEventListener('resize', resize);
-    }
-
-    return () => {
-      scene.getEngine().dispose();
-
-      if (window) {
-        window.removeEventListener('resize', resize);
-      }
-    };
-  }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
+    renderScene(sceneRef);
+  }, []);
 
   return (
-    <>
+    <Fragment>
       <div className={styles.float_buttons}>
-        <ButtonBoxComponent />
-        <ToggleInspectorButtonComponent scene={myScene} />
+        <ButtonBoxComponent
+          toggleLight={toggleLight}
+          hideShadow={hideShadow}
+          rightHandUpAnimation={rightHandUpAnimation}
+        />
+        <ToggleInspectorButtonComponent scene={sceneRef.current} />
       </div>
-      <canvas ref={reactCanvas} {...rest} className={styles.canvas} />
-    </>
+      <canvas ref={reactCanvas} className={styles.canvas} />
+    </Fragment>
   );
 };
