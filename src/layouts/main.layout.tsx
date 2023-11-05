@@ -1,4 +1,6 @@
 import { FC, ReactNode } from 'react';
+import styles from './main.layout.module.css';
+
 type IMainLayoutProps = {
   header: ReactNode;
   scene: ReactNode;
@@ -6,7 +8,7 @@ type IMainLayoutProps = {
 
 export const MainLayout: FC<IMainLayoutProps> = ({ header, scene }) => {
   return (
-    <div style={{ height: '100', overflow: 'hidden' }}>
+    <div className={styles.container}>
       {header}
       {scene}
     </div>

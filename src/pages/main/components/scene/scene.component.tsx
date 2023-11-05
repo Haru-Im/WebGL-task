@@ -13,6 +13,7 @@ import {
 import { ButtonBoxComponent } from '../button-box';
 import { ToggleInspectorButtonComponent } from '../toggle-inspector-button';
 import { Scene } from '@babylonjs/core';
+import styles from './scene.component.module.css';
 
 type ISceneComponentProps = BabylonjsProps;
 
@@ -81,20 +82,11 @@ export const SceneComponent: FC<ISceneComponentProps> = ({
 
   return (
     <>
-      <div id="float_buttons" style={{ position: 'absolute', top: 87, left: 7 }}>
+      <div className={styles.float_buttons}>
         <ButtonBoxComponent />
         <ToggleInspectorButtonComponent scene={myScene} />
       </div>
-      <canvas
-        ref={reactCanvas}
-        {...rest}
-        style={{
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(30deg, rgba(178,153,141,1) 35%, rgba(134,125,132,1) 79%)',
-          touchAction: 'none',
-        }}
-      />
+      <canvas ref={reactCanvas} {...rest} className={styles.canvas} />
     </>
   );
 };
